@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: next-starter-postgres
+    environment:
+      POSTGRES_DB: next_starter
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js Application
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_APP_URL=http://localhost:3000
+        - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_dummy
+        - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/next_starter
+        - APP_URL=http://localhost:3000
+        - NEXTAUTH_SECRET=your-auth-secret-key-here-make-it-long-and-secure
+        - GITHUB_ID=your_github_client_id
+        - GITHUB_SECRET=your_github_client_secret
+        - STRIPE_SECRET_KEY=sk_test_dummy
+        - STRIPE_WEBHOOK_SECRET_KEY=whsec_dummy
+        - STRIPE_SUBSCRIPTION_PRICE_ID=price_dummy
+    container_name: next-starter-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/next_starter
+      - APP_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=your-auth-secret-key-here-make-it-long-and-secure
+      - GITHUB_ID=your_github_client_id
+      - GITHUB_SECRET=your_github_client_secret
+      - STRIPE_SECRET_KEY=sk_test_dummy
+      - STRIPE_WEBHOOK_SECRET_KEY=whsec_dummy
+      - STRIPE_SUBSCRIPTION_PRICE_ID=price_dummy
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_dummy
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:

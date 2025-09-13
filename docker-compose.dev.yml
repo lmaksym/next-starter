@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  # Development Next.js with hot reloading
+  nextjs-dev:
+    build:
+      context: .
+      target: deps
+    container_name: next-starter-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/next_starter_dev
+      - APP_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=your-auth-secret-key-here-make-it-long-and-secure
+      - GITHUB_ID=your_github_client_id
+      - GITHUB_SECRET=your_github_client_secret
+      - STRIPE_SECRET_KEY=sk_test_dummy
+      - STRIPE_WEBHOOK_SECRET_KEY=whsec_dummy
+      - STRIPE_SUBSCRIPTION_PRICE_ID=price_dummy
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_dummy
+    command: npm run dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    working_dir: /app
+
+  # Override postgres for development
+  postgres:
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: next_starter_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
