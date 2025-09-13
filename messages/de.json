@@ -1,0 +1,8 @@
+{
+  "home": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "subtitle": "Eine Next.js Starter-Vorlage, vollgepackt mit Funktionen wie TypeScript, Tailwind CSS, Next-auth, Eslint, Stripe, Test-Tools und mehr. Starten Sie Ihr Projekt mit Effizienz und Stil.",
+    "getStartedButton": "Loslegen"
+  }
+}

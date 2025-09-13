@@ -1,0 +1,8 @@
+{
+  "home": {
+    "signIn": "Se connecter",
+    "signOut": "Se déconnecter",
+    "subtitle": "Un modèle de démarrage Next.js, rempli de fonctionnalités comme TypeScript, Tailwind CSS, Next-auth, Eslint, Stripe, outils de test et plus encore. Démarrez votre projet avec efficacité et style.",
+    "getStartedButton": "Commencer"
+  }
+}

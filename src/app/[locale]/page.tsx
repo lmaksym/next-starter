@@ -3,7 +3,9 @@ import { getTranslations } from 'next-intl/server'
 
 import { AuthControls } from '@/components/auth-controls'
 import { Icons } from '@/components/icons'
+import { LangSwitcher } from '@/components/lang-switcher'
 import { StripeButton } from '@/components/stripe-button'
+import { ThemeSwitcher } from '@/components/theme-switcher'
 import { buttonVariants } from '@/components/ui/button'
 import { auth } from '@/lib/auth'
 
@@ -19,6 +21,8 @@ const HomePage = async () => {
             next-starter
           </Link>
           <div className="flex items-center gap-2">
+            <LangSwitcher />
+            <ThemeSwitcher />
             <AuthControls session={session} />
           </div>
         </div>
