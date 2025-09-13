@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { AuthControls } from '@/components/auth-controls'
 import { Icons } from '@/components/icons'
 import { LangSwitcher } from '@/components/lang-switcher'
+import { MobileMenu } from '@/components/mobile-menu'
 import { StripeButton } from '@/components/stripe-button'
 import { ThemeSwitcher } from '@/components/theme-switcher'
 import { buttonVariants } from '@/components/ui/button'
@@ -17,14 +18,17 @@ const HomePage = async () => {
     <>
       <header className="w-full border-b">
         <div className="container flex h-16 items-center justify-between">
-          <Link href="#" className="font-mono text-lg font-bold">
+          <Link href="/" className="font-mono text-lg font-bold">
             next-starter
           </Link>
-          <div className="flex items-center gap-2">
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-2 md:flex">
             <LangSwitcher />
             <ThemeSwitcher />
             <AuthControls session={session} />
           </div>
+          {/* Mobile Navigation */}
+          <MobileMenu session={session} />
         </div>
       </header>
       <section className="container mt-10 flex flex-col items-center gap-3 text-center md:absolute md:top-1/2 md:left-1/2 md:mt-0 md:-translate-x-1/2 md:-translate-y-1/2">
